@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <title>Collector Blog</title> 
+        <link rel="stylesheet" href="style.css" type="text/css" media="all">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        
+    </head>
+    <div id="app" v-cloak>
+        <v-app light>
+            <v-content>
+
+                <!-- Toolbar -->
+                <v-toolbar>
+                    <v-toolbar-side-icon @click=" drawer = !drawer"></v-toolbar-side-icon>
+                    <v-toolbar-title>A Collectors Blog</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                        <v-btn flat @click="page = 'blog'">Blog</v-btn>
+                        <v-btn flat @click="page = 'post'">Post</v-btn>
+                    </v-toolbar-items>
+                </v-toolbar>
+
+                <!-- Navigation Drawer -->
+                <v-navigation-drawer app v-model="drawer">
+                    <v-list>
+                        <v-list-title class="display-1 mt-4 mb-4">Category's</v-list-title>
+                        <v-list-tile v-for="category in categories" @click="selectCategory( category )">
+                            <v-list-content >{{ category }}</v-list-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-navigation-drawer>
+
+                <v-container grid-list-lg fluid v-if="page == 'blog'">
+                    <v-layout row>
+
+                        <v-spacer></v-spacer>
+
+                        <v-flex sx10>
+                            <v-layout column>
+                                <div class="display-2">POSTS</div>
+                                <v-flex v-for="post in sorted_posts">
+                                    <v-card elevation="20" dark>
+                                        <v-img v-bind:src="post.image" height="200px"></v-img>
+
+                                        <v-layout row>
+                                            <v-card-title class="display-3"> {{ post.title }}</v-card-title> 
+                                            
+                                            <v-spacer></v-spacer>
+
+                                            <v-layout column class="ma-4">
+                                                <v-text class="caption">By: {{ post.author}}</v-text>
+                                                <v-text class="caption">Category: {{ post.category}}</v-text>
+                                                <v-text class="caption">Created on: {{ formatDate(post)}}</v-text>
+                                            </v-layout>
+                                        </v-layout>
+
+                                        <v-layout class="ma-4">
+                                            <v-text>{{ post.text }}</v-text>
+                                        </v-layout>
+                                        
+                                    </v-card>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+
+                        <v-spacer></v-spacer>
+
+                    </v-layout>
+                </v-container>
+
+
+
+                <v-container grid-list-lg fluid v-if="page == 'post'">
+                        <v-layout row>
+    
+                            <v-spacer></v-spacer>
+    
+                            <v-flex sx10>
+                                <v-layout column>
+                                    <div class="display-2">Create Post</div>
+                                    <v-flex >
+                                        <v-card elevation="20" dark>
+                                            <v-text-field class="ml-4 mr-4 mt-4" type="text" label="Title" v-model="new_post_title"> </v-text-field>
+                                            <v-text-field class="ml-4 mr-4" type="text" label="Author" v-model="new_post_author"></v-text-field>
+                                            <v-select class="ml-4 mr-4"  v-model="new_post_category" :items="categories" label="Category"></v-select>
+                                            <v-text-field class="ml-4 mr-4"  type="text" label="Image Url" v-model="new_post_image"></v-text-field>
+                                            <v-textarea class="ml-4 mr-4"  label="Text" v-model="new_post_text"></v-textarea>
+                                            <v-btn class="ml-4 mr-4 mb-4" outline v-on:click="addNewPost( )">Create Post</v-btn>
+                                            
+                                        </v-card>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+    
+                            <v-spacer></v-spacer>
+    
+                        </v-layout>
+                    </v-container>
+            </v-content>
+        </v-app> 
+    </div>
+        
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <script src="code.js"></script>
+</html>
+
