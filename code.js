@@ -23,11 +23,12 @@ var app = new Vue ({
         new_post_category: "",
         new_post_image: "",
         new_post_text: "",
-        url: "http://localhost:3000",
+        // url: "http://localhost:3000",
+        url: "https://collectors-blog.herokuapp.com",
         posts: []
 
     },
-    
+
     created: function( ) {
         this.loadPosts();
     },
